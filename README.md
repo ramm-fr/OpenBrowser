@@ -55,6 +55,19 @@ A fast, private, and open-source web browser built natively for Linux with GTK4,
 
 GPL-3.0-or-later
 
+## Installation
+
+```bash
+# Download from GitHub
+wget https://github.com/ramm-fr/OpenBrowser/raw/main/openbrowser_1.0.0-1_amd64.deb
+
+# Install
+sudo dpkg -i openbrowser_1.0.0-1_amd64.deb
+
+# Fix dependencies if needed
+sudo apt -f install
+```
+
 ## Author
 
 **ramm.frr**
