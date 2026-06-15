@@ -68,6 +68,21 @@ sudo dpkg -i openbrowser_1.0.0-1_amd64.deb
 sudo apt -f install
 ```
 
+## Uninstallation
+
+```bash
+# Remove the application (includes debug symbols)
+sudo dpkg --purge openbrowser-dbgsym openbrowser
+
+# Remove saved data (bookmarks, history, passwords, cookies)
+rm -rf ~/.local/share/openbrowser
+rm -rf ~/.cache/openbrowser
+rm -rf ~/.config/openbrowser
+
+# Remove the .deb file if downloaded
+rm -f openbrowser_1.0.0-1_amd64.deb
+```
+
 ## Author
 
 **ramm.frr**
