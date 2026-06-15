@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<title>About OpenBrowser</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; background: #1a1a1a; color: #ccc; font-family: 'Cantarell', -apple-system, sans-serif; }
+body { display: flex; flex-direction: column; padding: 28px 40px; }
+
+.top { flex: 1; display: flex; gap: 32px; }
+
+/* Left column */
+.col-left { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.col-left h1 { font-size: 32px; font-weight: 300; color: #eee; margin-bottom: 6px; }
+.col-left .sub { font-size: 13px; color: #555; margin-bottom: 20px; }
+.col-left .desc { font-size: 12px; color: #777; line-height: 1.7; margin-bottom: 20px; }
+
+.info-rows { display: flex; flex-direction: column; gap: 6px; }
+.info-row { display: flex; justify-content: space-between; font-size: 11px; padding: 5px 0; border-bottom: 1px solid #222; }
+.info-row .l { color: #555; }
+.info-row .r { color: #999; }
+
+/* Right column */
+.col-right { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+
+.block { background: #222; border: 1px solid #2a2a2a; border-radius: 10px; padding: 14px 16px; }
+.block h3 { font-size: 10px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+
+.feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.feat { font-size: 11px; color: #777; padding: 3px 0; }
+.feat::before { content: '• '; color: #4a9eff; }
+
+.priv-list { display: flex; flex-direction: column; gap: 3px; }
+.priv { font-size: 11px; color: #777; }
+.priv::before { content: '✓ '; color: #4caf50; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag { padding: 3px 8px; border-radius: 4px; font-size: 9px; background: #2a2a2a; color: #666; }
+
+/* Bottom bar */
+.bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 16px; border-top: 1px solid #222; margin-top: 16px;
+}
+.bottom .copy { font-size: 10px; color: #333; }
+
+.social { display: flex; gap: 12px; }
+.social a {
+  width: 28px; height: 28px; border-radius: 6px; background: #222; border: 1px solid #2a2a2a;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; transition: all 0.2s;
+}
+.social a:hover { background: #2e2e2e; border-color: #444; }
+.social a svg { width: 14px; height: 14px; color: #777; }
+.social a:hover svg { color: #ddd; }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="col-left">
+    <h1>OpenBrowser</h1>
+    <div class="sub">v1.0.0 &middot; GPL-3.0-or-later</div>
+    <div class="desc">
+      A fast, private, and open-source web browser built natively for Linux.
+      Designed with GTK4 and WebKitGTK for seamless desktop integration.
+      No telemetry, no tracking, no compromises.
+    </div>
+    <div class="info-rows">
+      <div class="info-row"><span class="l">Engine</span><span class="r">WebKitGTK 2.52</span></div>
+      <div class="info-row"><span class="l">Toolkit</span><span class="r">GTK 4.14 + libadwaita 1.5</span></div>
+      <div class="info-row"><span class="l">Language</span><span class="r">C17</span></div>
+      <div class="info-row"><span class="l">Platform</span><span class="r">Linux x86_64</span></div>
+      <div class="info-row"><span class="l">Build System</span><span class="r">Meson + Ninja</span></div>
+      <div class="info-row"><span class="l">Package</span><span class="r">.deb (Debian/Ubuntu)</span></div>
+      <div class="info-row"><span class="l">Search Engines</span><span class="r">Google, DuckDuckGo, Bing, Yahoo, Brave, Startpage, Yandex</span></div>
+    </div>
+  </div>
+
+  <div class="col-right">
+    <div class="block">
+      <h3>Features</h3>
+      <div class="feat-grid">
+        <div class="feat">Vertical tab panel</div>
+        <div class="feat">Download manager</div>
+        <div class="feat">Password manager</div>
+        <div class="feat">Bookmark manager</div>
+        <div class="feat">History tracking</div>
+        <div class="feat">7 search engines</div>
+        <div class="feat">Ctrl+Scroll zoom</div>
+        <div class="feat">Find in page</div>
+        <div class="feat">Developer tools</div>
+        <div class="feat">Keyboard shortcuts</div>
+        <div class="feat">Auto-fill credentials</div>
+        <div class="feat">Persistent sessions</div>
+      </div>
+    </div>
+    <div class="block">
+      <h3>Privacy &amp; Security</h3>
+      <div class="priv-list">
+        <div class="priv">Tracker blocking</div>
+        <div class="priv">Ad blocking</div>
+        <div class="priv">HTTPS-only mode</div>
+        <div class="priv">Third-party cookies blocked</div>
+        <div class="priv">Zero telemetry</div>
+        <div class="priv">Local password storage</div>
+      </div>
+    </div>
+    <div class="block">
+      <h3>Built With</h3>
+      <div class="tags">
+        <span class="tag">GTK4</span>
+        <span class="tag">WebKitGTK</span>
+        <span class="tag">libadwaita</span>
+        <span class="tag">JSON-GLib</span>
+        <span class="tag">C17</span>
+        <span class="tag">Meson</span>
+        <span class="tag">Open Source</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom">
+  <span class="copy">OpenBrowser &middot; Fast, private, open source &middot; Made for Linux</span>
+  <div class="social">
+    <a href="https://github.com/ramm-fr" title="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
+    <a href="https://www.instagram.com/ramm.frr/" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+  </div>
+</div>
+
+</body></html>
