@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenBrowser — Fast, Private, Open Source Browser for Linux</title>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@2/dist/lottie-player.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#181818;--surface:#1f1f1f;--surface2:#252525;--card:#2d2d2d;--border:#2a2a2a;--border2:#333;--text:#ccc;--text2:#888;--text3:#555;--accent:#4a9eff;--white:#e8e8e8}
+html{scroll-behavior:smooth}
+body{font-family:'Cantarell',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:16px 0;transition:all .3s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(24,24,24,.92);backdrop-filter:blur(16px);border-bottom-color:var(--border)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-size:15px;font-weight:700;color:var(--white)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:13px;color:var(--text2);transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--accent);color:#000!important;padding:7px 18px;border-radius:8px;font-weight:600;font-size:12px!important;transition:transform .2s,box-shadow .2s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(74,158,255,.25)}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <span class="nav-brand">OpenBrowser</span>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#shortcuts">Shortcuts</a>
+      <a href="#download" class="nav-cta">Download</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO: Split Layout -->
+<section class="hero">
+  <video autoplay loop muted playsinline class="hero-video">
+    <source src="https://res.cloudinary.com/dfonotyfb/video/upload/v1775585556/dds3_1_rqhg7x.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        Built for Linux · GTK4 Native · Open Source
+      </div>
+      <h1>Browse the web.<br><span>Your way.</span></h1>
+      <p class="hero-desc">The browser that respects your privacy, runs natively on your Linux desktop, and never phones home. No telemetry. No tracking. No compromises.</p>
+      <div class="hero-btns">
+        <a href="#download" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download AppImage
+        </a>
+        <a href="https://github.com/ramm-fr/OpenBrowser" class="btn btn-ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          GitHub
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-num">~78</span><span class="hero-stat-label">MB Size</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hero-stat-num">0</span><span class="hero-stat-label">Telemetry</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hero-stat-num">GTK4</span><span class="hero-stat-label">Native</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hero-stat-num">GPL-3</span><span class="hero-stat-label">License</span></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <lottie-player src="creative-tabs.json" background="transparent" speed="1" loop autoplay></lottie-player>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-header reveal"><h2>Built for the modern Linux desktop</h2><p>Speed, privacy, and elegance — without compromise.</p></div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <h3>Lightning Fast</h3><p>Hardware-accelerated GPU rendering with page cache and DNS prefetching.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg></div>
+      <h3>Vertical Tabs</h3><p>Clean vertical tab panel gives maximum screen space. Toggle anytime.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <h3>Private by Default</h3><p>Block trackers, ads, third-party cookies. No telemetry. No data collection.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <h3>Native GTK4</h3><p>True libadwaita integration. Follows your system theme and GNOME conventions.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
+      <h3>Lightweight</h3><p>Minimal memory footprint. No bloat, no background processes.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+      <h3>Open Source</h3><p>GPL-3.0 licensed. Audit, contribute, or fork. Fully transparent.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="section" id="privacy">
+  <div class="privacy-section">
+    <div class="section-header reveal"><h2>Privacy is non-negotiable</h2><p>Every default protects you.</p></div>
+    <div class="privacy-grid">
+      <div class="privacy-item reveal"><div class="privacy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg></div><div><h4>Zero Telemetry</h4><p>No data leaves your machine. No analytics, no crash reports.</p></div></div>
+      <div class="privacy-item reveal"><div class="privacy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><h4>Ad & Tracker Blocking</h4><p>Removes invasive scripts, trackers, and ads automatically.</p></div></div>
+      <div class="privacy-item reveal"><div class="privacy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div><h4>HTTPS Only</h4><p>Forces encrypted connections. Blocks insecure requests.</p></div></div>
+      <div class="privacy-item reveal"><div class="privacy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M1 1l22 22"/></svg></div><div><h4>No Fingerprinting</h4><p>Prevents sites from creating unique profiles of your browser.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SHORTCUTS -->
+<section class="section" id="shortcuts">
+  <div class="section-header reveal"><h2>Keyboard-first workflow</h2><p>Power users feel at home.</p></div>
+  <div class="shortcuts-grid">
+    <div class="shortcut reveal"><kbd>Ctrl+T</kbd><span>New Tab</span></div>
+    <div class="shortcut reveal"><kbd>Ctrl+W</kbd><span>Close Tab</span></div>
+    <div class="shortcut reveal"><kbd>Ctrl+L</kbd><span>Focus URL</span></div>
+    <div class="shortcut reveal"><kbd>Ctrl+D</kbd><span>Bookmark</span></div>
+    <div class="shortcut reveal"><kbd>Ctrl+H</kbd><span>History</span></div>
+    <div class="shortcut reveal"><kbd>Ctrl+F</kbd><span>Find</span></div>
+    <div class="shortcut reveal"><kbd>Ctrl+=</kbd><span>Zoom In</span></div>
+    <div class="shortcut reveal"><kbd>Ctrl+-</kbd><span>Zoom Out</span></div>
+    <div class="shortcut reveal"><kbd>Ctrl+R</kbd><span>Reload</span></div>
+    <div class="shortcut reveal"><kbd>Ctrl+Tab</kbd><span>Next Tab</span></div>
+    <div class="shortcut reveal"><kbd>Ctrl+Shift+I</kbd><span>DevTools</span></div>
+    <div class="shortcut reveal"><kbd>F11</kbd><span>Fullscreen</span></div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="download">
+  <div class="download-section">
+    <h2>Get OpenBrowser</h2>
+    <p>One file. No installation. Just run.</p>
+    <div class="download-box">
+      <div class="download-tags"><span>v0.1</span><span>x86_64</span><span>AppImage</span><span>78 MB</span></div>
+      <a href="OpenBrowser-0.1-x86_64.AppImage" class="btn btn-primary" style="width:100%;justify-content:center">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download for Linux
+      </a>
+      <div class="download-cmd">chmod +x OpenBrowser-0.1-x86_64.AppImage && ./OpenBrowser-0.1-x86_64.AppImage</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-brand">OpenBrowser</span>
+  <div class="footer-links"><a href="#features">Features</a><a href="#privacy">Privacy</a><a href="#download">Download</a></div>
+  <span class="footer-copy">Open source · GPL-3.0 · Built with GTK4</span>
+</footer>
+
+<!-- STYLES -->
+<style>
+/* HERO SPLIT */
+.hero{position:relative;width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(24,24,24,.88) 0%,rgba(24,24,24,.6) 50%,rgba(24,24,24,.75) 100%);z-index:1}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;max-width:1200px;width:100%;padding:100px 40px}
+.hero-left{text-align:left}
+.hero-right{display:flex;align-items:center;justify-content:center}
+.hero-right lottie-player{width:100%;max-width:440px;height:440px;filter:drop-shadow(0 0 30px rgba(74,158,255,.1))}
+.hero h1{font-size:clamp(32px,4.5vw,52px);font-weight:200;color:var(--white);line-height:1.15;letter-spacing:-1px;margin-bottom:14px}
+.hero h1 span{color:var(--accent);font-weight:300}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:500;color:var(--text);background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.15);padding:5px 12px;border-radius:20px;margin-bottom:18px;backdrop-filter:blur(4px)}
+.hero-desc{font-size:15px;color:var(--text2);max-width:460px;margin-bottom:24px;line-height:1.75}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:10px;font-size:13px;font-weight:500;transition:all .2s}
+.btn-primary{background:var(--accent);color:#000}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(74,158,255,.3)}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border2)}
+.btn-ghost:hover{background:var(--border2);color:var(--white)}
+.hero-stats{display:flex;align-items:center;margin-top:28px;background:rgba(45,45,45,.5);border:1px solid var(--border);border-radius:10px;padding:12px 16px;backdrop-filter:blur(8px);width:fit-content}
+.hero-stat{display:flex;flex-direction:column;align-items:center;gap:1px;padding:0 14px}
+.hero-stat-num{font-size:15px;font-weight:700;color:var(--white)}
+.hero-stat-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.hero-stat-divider{width:1px;height:26px;background:var(--border2)}
+
+/* SECTIONS */
+.section{padding:80px 40px;max-width:1200px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:48px}
+.section-header h2{font-size:clamp(22px,2.8vw,32px);font-weight:300;color:var(--white);margin-bottom:8px}
+.section-header p{font-size:14px;color:var(--text2)}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.feature-card:hover{transform:translateY(-4px);border-color:var(--border2);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+.feature-icon{width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--surface2);border:1px solid var(--border);border-radius:9px;margin-bottom:14px}
+.feature-icon svg{width:18px;height:18px;color:var(--accent)}
+.feature-card h3{font-size:13px;font-weight:600;color:var(--white);margin-bottom:5px}
+.feature-card p{font-size:12px;color:var(--text2);line-height:1.6}
+
+/* LOTTIE DIVIDERS */
+.lottie-divider{padding:20px 0;text-align:center}
+
+/* PRIVACY */
+.privacy-section{background:var(--surface);border-radius:14px;padding:48px 36px;max-width:1200px;margin:0 auto}
+.privacy-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.privacy-item{display:flex;align-items:flex-start;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;transition:transform .2s,border-color .2s}
+.privacy-item:hover{transform:translateY(-2px);border-color:var(--border2)}
+.privacy-icon{flex-shrink:0;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--surface2);border:1px solid var(--border);border-radius:8px}
+.privacy-icon svg{width:16px;height:16px;color:var(--accent)}
+.privacy-item h4{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px}
+.privacy-item p{font-size:11px;color:var(--text2);line-height:1.5}
+</style>
+
+<style>
+/* SHORTCUTS */
+.shortcuts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.shortcut{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px 13px;transition:transform .2s,border-color .2s}
+.shortcut:hover{transform:translateY(-2px);border-color:var(--border2)}
+.shortcut kbd{background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:2px 7px;font-size:11px;color:var(--accent);font-family:monospace;font-weight:600}
+.shortcut span{font-size:11px;color:var(--text2)}
+
+/* DOWNLOAD */
+.download-section{text-align:center;padding:60px 40px;max-width:560px;margin:0 auto}
+.download-section h2{font-size:clamp(22px,2.8vw,30px);font-weight:300;color:var(--white);margin-bottom:8px}
+.download-section>p{font-size:14px;color:var(--text2);margin-bottom:28px}
+.download-box{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:28px}
+.download-tags{display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.download-tags span{font-size:10px;color:var(--text3);background:var(--surface2);padding:3px 9px;border-radius:4px}
+.download-cmd{margin-top:14px;font-size:10px;color:var(--text3);font-family:monospace;background:var(--surface);padding:9px 12px;border-radius:8px;border:1px solid var(--border)}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--border);padding:28px 40px;max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-brand{font-size:13px;font-weight:600;color:var(--white)}
+.footer-links{display:flex;gap:18px}
+.footer-links a{font-size:12px;color:var(--text2);transition:color .2s}
+.footer-links a:hover{color:var(--white)}
+.footer-copy{font-size:10px;color:var(--text3)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.features-grid .reveal:nth-child(2){transition-delay:.08s}
+.features-grid .reveal:nth-child(3){transition-delay:.16s}
+.features-grid .reveal:nth-child(4){transition-delay:.24s}
+.features-grid .reveal:nth-child(5){transition-delay:.32s}
+.features-grid .reveal:nth-child(6){transition-delay:.4s}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.features-grid{grid-template-columns:repeat(2,1fr)}.shortcuts-grid{grid-template-columns:repeat(3,1fr)}.hero-grid{grid-template-columns:1fr;text-align:center}.hero-left{text-align:center}.hero-right lottie-player{max-width:320px;height:320px}.hero-stats{margin:28px auto 0}.hero-btns{justify-content:center}}
+@media(max-width:768px){.features-grid,.privacy-grid{grid-template-columns:1fr}.shortcuts-grid{grid-template-columns:repeat(2,1fr)}.section{padding:48px 20px}.footer{flex-direction:column;text-align:center}.nav-links a:not(.nav-cta){display:none}.privacy-section{padding:28px 16px;border-radius:10px}.hero-stats{flex-wrap:wrap;padding:10px 12px}.hero-stat-divider{display:none}.hero-stat{padding:6px 10px}}
+@media(max-width:480px){.shortcuts-grid{grid-template-columns:1fr}.hero-btns{flex-direction:column;align-items:center}}
+</style>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)},{passive:true});
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'})})});
+</script>
+</body>
+</html>

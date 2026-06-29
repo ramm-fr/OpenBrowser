@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8"><title>Settings</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow-y:auto;background:#1a1a1a;color:#ccc;font-family:'Cantarell',-apple-system,sans-serif}
+body{padding:32px 48px}
+h1{font-size:24px;font-weight:300;color:#eee;margin-bottom:24px}
+.section{margin-bottom:28px}
+.section-title{font-size:10px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;padding-left:4px}
+.card{background:#222;border:1px solid #2a2a2a;border-radius:12px;padding:4px 0;margin-bottom:12px}
+.row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #252525}
+.row:last-child{border-bottom:none}
+.row .label{font-size:13px;color:#bbb}
+.row .value{font-size:12px;color:#666}
+.row select{background:#2a2a2a;color:#ccc;border:1px solid #333;border-radius:6px;padding:6px 12px;font-size:12px;outline:none}
+.toggle{width:36px;height:20px;border-radius:10px;background:#333;position:relative;cursor:pointer;transition:0.2s}
+.toggle.on{background:#4a9eff}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:0.2s}
+.toggle.on::after{left:18px}
+</style>
+</head><body>
+<h1>Settings</h1>
+<div class="section">
+<div class="section-title">General</div>
+<div class="card">
+<div class="row"><span class="label">Homepage</span><span class="value">https://duckduckgo.com</span></div>
+<div class="row"><span class="label">Search Engine</span>
+<select id="engine"><option>Google</option><option selected>DuckDuckGo</option><option>Bing</option><option>Brave</option><option>Yahoo</option><option>Yandex</option></select></div>
+</div></div>
+<div class="section">
+<div class="section-title">Privacy & Security</div>
+<div class="card">
+<div class="row"><span class="label">Block Trackers</span><div class="toggle on"></div></div>
+<div class="row"><span class="label">Block Ads</span><div class="toggle on"></div></div>
+<div class="row"><span class="label">HTTPS Only</span><div class="toggle on"></div></div>
+<div class="row"><span class="label">Block Popups</span><div class="toggle on"></div></div>
+<div class="row"><span class="label">Do Not Track</span><div class="toggle on"></div></div>
+<div class="row"><span class="label">Block Third-Party Cookies</span><div class="toggle on"></div></div>
+</div></div>
+<div class="section">
+<div class="section-title">Performance</div>
+<div class="card">
+<div class="row"><span class="label">Hardware Acceleration</span><div class="toggle on"></div></div>
+<div class="row"><span class="label">Lazy Loading</span><div class="toggle on"></div></div>
+<div class="row"><span class="label">Memory Saver</span><div class="toggle on"></div></div>
+</div></div>
+<script>
+document.querySelectorAll('.toggle').forEach(t=>{
+t.addEventListener('click',()=>t.classList.toggle('on'));
+});
+</script>
+</body></html>

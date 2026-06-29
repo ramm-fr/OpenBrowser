@@ -1,0 +1,648 @@
+/* OpenBrowser - GNOME Style Gray Theme */
+
+/* Main window styling */
+.main-window {
+  background-color: #2d2d2d;
+}
+
+/* Header bar with URL and window controls */
+.browser-headerbar {
+  background-color: #353535;
+  min-height: 36px;
+  padding: 0 4px;
+}
+
+headerbar.browser-headerbar {
+  background-color: #353535;
+  box-shadow: none;
+  border-bottom: none;
+  min-height: 36px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Headerbar with tabs */
+.browser-tabbar {
+  background-color: #303030;
+  min-height: 34px;
+  padding: 0;
+}
+
+headerbar.browser-tabbar {
+  background-color: #303030;
+  box-shadow: none;
+  border-bottom: 1px solid #222222;
+  padding-top: 0;
+  padding-bottom: 0;
+  min-height: 34px;
+}
+
+/* Navigation toolbar - compact */
+.nav-toolbar {
+  background-color: #3a3a3a;
+  border-bottom: 1px solid #2a2a2a;
+  min-height: 28px;
+  padding: 2px 4px;
+}
+
+/* Compact buttons used everywhere */
+.compact-btn {
+  min-width: 24px;
+  min-height: 24px;
+  padding: 2px;
+}
+
+/* Tab bar (top, directly under the URL box) */
+.tab-panel {
+  background-color: #191919;
+  min-height: 32px;
+}
+
+.tab-panel-inner {
+  background-color: #2a2a2a;
+  border-radius: 0 0 10px 10px;
+  border-bottom: 1px solid #333333;
+  padding: 1px 4px;
+}
+
+/* Tab items as compact chips in the top bar */
+.tab-item {
+  padding: 3px 8px;
+  border-radius: 7px;
+  color: #bbbbbb;
+  font-size: 12px;
+  min-height: 22px;
+}
+
+.tab-item:hover {
+  background-color: #3a3a3a;
+  color: #eeeeee;
+}
+
+.tab-item-active {
+  background-color: #404040;
+  color: #ffffff;
+}
+
+.tab-item .tab-close-btn {
+  min-width: 18px;
+  min-height: 18px;
+  padding: 2px;
+  opacity: 0;
+}
+
+.tab-item:hover .tab-close-btn {
+  opacity: 0.6;
+}
+
+.tab-item .tab-close-btn:hover {
+  opacity: 1.0;
+  background-color: rgba(255,255,255,0.1);
+}
+
+.new-tab-btn {
+  min-width: 22px;
+  min-height: 22px;
+  padding: 2px;
+  color: #999999;
+}
+
+.new-tab-btn:hover {
+  color: #ffffff;
+}
+
+/* URL bar */
+.url-entry {
+  background-color: #404040;
+  border: 1px solid #4a4a4a;
+  border-radius: 14px;
+  padding: 2px 12px;
+  color: #e0e0e0;
+  min-height: 22px;
+  font-size: 12px;
+}
+
+.url-entry:focus {
+  border-color: #666666;
+  background-color: #454545;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(150, 150, 150, 0.2);
+}
+
+/* Navigation buttons */
+.nav-button {
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  padding: 2px;
+  color: #cccccc;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.nav-button:hover {
+  background-color: #4a4a4a;
+}
+
+.nav-button:active {
+  background-color: #555555;
+}
+
+.nav-button:disabled {
+  color: #666666;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: #333333;
+  border-right: 1px solid #1a1a1a;
+  min-width: 250px;
+}
+
+.sidebar-header {
+  background-color: #3d3d3d;
+  padding: 12px;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.sidebar-item {
+  padding: 8px 16px;
+  color: #cccccc;
+  border-radius: 6px;
+  margin: 2px 8px;
+}
+
+.sidebar-item:hover {
+  background-color: #404040;
+}
+
+.sidebar-item:selected {
+  background-color: #4a4a4a;
+  color: #ffffff;
+}
+
+/* Download bar */
+.download-bar {
+  background-color: #3d3d3d;
+  border-top: 1px solid #4a4a4a;
+  padding: 8px 16px;
+}
+
+.download-item {
+  background-color: #404040;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 4px;
+  border: 1px solid #4a4a4a;
+}
+
+/* Status bar */
+.status-bar {
+  background-color: #2d2d2d;
+  border-top: 1px solid #3d3d3d;
+  padding: 2px 12px;
+  font-size: 12px;
+  color: #999999;
+}
+
+/* Menu popover */
+.browser-menu {
+  background-color: #3d3d3d;
+  border: 1px solid #4a4a4a;
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.menu-item {
+  padding: 8px 16px;
+  border-radius: 6px;
+  color: #e0e0e0;
+}
+
+.menu-item:hover {
+  background-color: #4a4a4a;
+}
+
+/* Settings page */
+.settings-page {
+  background-color: #2d2d2d;
+}
+
+.settings-group {
+  background-color: #3d3d3d;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 8px 16px;
+  border: 1px solid #4a4a4a;
+}
+
+.settings-row {
+  padding: 12px 0;
+  border-bottom: 1px solid #404040;
+}
+
+/* Bookmark bar */
+.bookmark-bar {
+  background-color: #353535;
+  border-bottom: 1px solid #2a2a2a;
+  padding: 4px 8px;
+  min-height: 28px;
+}
+
+.bookmark-button {
+  background-color: transparent;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #cccccc;
+  font-size: 12px;
+}
+
+.bookmark-button:hover {
+  background-color: #4a4a4a;
+}
+
+/* Find bar — compact floating style, top-right */
+.find-bar {
+  background-color: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  border-radius: 12px;
+  padding: 6px 8px;
+  margin: 10px 14px 0 0;
+}
+
+.find-entry {
+  background-color: #1f1f1f;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: #e0e0e0;
+  min-height: 0;
+}
+
+/* Progress bar - thin 2px line under the toolbar */
+.loading-bar {
+  background-color: transparent;
+  min-height: 2px;
+  max-height: 2px;
+  padding: 0;
+  margin: 0;
+}
+
+.loading-bar trough {
+  min-height: 2px;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.loading-bar progress {
+  background-color: #3584e4;
+  min-height: 2px;
+  border-radius: 0;
+  margin: 0;
+}
+
+/* Download notification bar */
+.download-notify-bar {
+  background-color: #2a2a2a;
+  border-top: 1px solid #333;
+  padding: 8px 16px;
+  min-height: 36px;
+}
+
+.download-notify-bar label {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.download-notify-bar image {
+  color: #7cb7ff;
+}
+
+.download-progress {
+  min-height: 6px;
+  border-radius: 3px;
+  background-color: #3a3a3a;
+}
+
+.download-progress progress {
+  background-color: #4a9eff;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Live progress bar in downloads page */
+.download-live-progress {
+  min-height: 4px;
+  border-radius: 2px;
+  background-color: #333;
+}
+
+.download-live-progress progress {
+  background-color: #4a9eff;
+  border-radius: 2px;
+}
+
+/* Tooltip */
+.browser-tooltip {
+  background-color: #4a4a4a;
+  color: #e0e0e0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  border: 1px solid #555555;
+}
+
+/* New tab page */
+.new-tab-page {
+  background-color: #2d2d2d;
+}
+
+.speed-dial {
+  background-color: #3d3d3d;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #4a4a4a;
+  min-width: 120px;
+  min-height: 90px;
+}
+
+.speed-dial:hover {
+  background-color: #454545;
+  border-color: #555555;
+}
+
+/* Incognito mode indicator */
+.incognito-indicator {
+  background-color: #1a1a1a;
+  color: #999999;
+}
+
+/* Developer tools panel */
+.devtools-panel {
+  background-color: #1e1e1e;
+  border-top: 1px solid #3d3d3d;
+}
+
+/* Scrollbar */
+scrollbar {
+  background-color: #2d2d2d;
+}
+
+scrollbar slider {
+  background-color: #555555;
+  border-radius: 4px;
+  min-width: 8px;
+}
+
+scrollbar slider:hover {
+  background-color: #666666;
+}
+
+/* History/Bookmark rows */
+.history-row {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #2a2a2a;
+  background: #222;
+}
+
+.history-row:hover {
+  background: #2a2a2a;
+}
+
+.history-title {
+  font-size: 13px;
+  color: #ddd;
+}
+
+/* Right menu panel */
+.menu-panel {
+  background-color: #1e1e1e;
+  border-left: 1px solid #2e2e2e;
+  border-radius: 12px 0 0 12px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.menu-panel button.flat {
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: #bbb;
+}
+
+.menu-panel button.flat:hover {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+/* Content area */
+.content-area {
+  border-radius: 0;
+  background-color: #1a1a1a;
+}
+
+/* ===== SMOOTH ENGINE - Transitions & Animations ===== */
+
+/* Smooth transitions for interactive UI elements only (NOT content areas) */
+.tab-item,
+.tab-item-active,
+.nav-button,
+.sidebar-item,
+.menu-item,
+.bookmark-button,
+.speed-dial,
+.history-row,
+button.flat,
+button.circular {
+  transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease, box-shadow 150ms ease;
+}
+
+/* NOTE: Do NOT animate stack or content-area — causes WebView scroll blink */
+
+/* Smooth revealer panels (sidebar/menu only, NOT content) */
+.tab-panel revealer > *,
+.menu-panel revealer > *,
+.sidebar revealer > * {
+  transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Smooth URL bar focus */
+.url-entry {
+  transition: border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+}
+
+/* Smooth progress bar */
+.loading-bar progress,
+.download-progress progress,
+.download-live-progress progress {
+  transition: all 200ms ease;
+}
+
+/* Smooth scrolling for all scrolled windows */
+scrolledwindow undershoot {
+  background: none;
+}
+
+/* Smooth hover effects */
+.tab-item:hover,
+.sidebar-item:hover,
+.history-row:hover,
+.speed-dial:hover {
+  transition: background-color 100ms ease;
+}
+
+/* Smooth switch toggle */
+switch {
+  transition: background-color 200ms ease;
+}
+
+switch slider {
+  transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Hide scrollbars in left tab panel and right menu panel */
+.tab-panel scrollbar,
+.tab-panel-inner scrollbar,
+.menu-panel scrollbar,
+.sidebar scrollbar {
+  opacity: 0;
+  min-width: 0;
+  min-height: 0;
+}
+
+
+/* Site info popover — style the contents node (not the widget) to avoid double layer */
+.site-info-popover > contents {
+  background-color: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  border-radius: 12px;
+  padding: 4px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+.site-info-popover > arrow {
+  background-color: #2d2d2d;
+  border: 1px solid #3d3d3d;
+}
+
+.site-info-popover separator {
+  margin: 4px 0;
+  background-color: #3a3a3a;
+}
+
+/* Clickable rows inside site info popover */
+.site-info-row-btn {
+  padding: 8px 6px;
+  border-radius: 6px;
+  min-height: 0;
+  background-color: transparent;
+}
+
+.site-info-row-btn:hover {
+  background-color: #3a3a3a;
+}
+
+
+/* ===== Certificate viewer page ===== */
+.cert-page {
+  background-color: #1a1a1a;
+}
+
+.cert-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cert-card {
+  background-color: #242424;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 6px 4px;
+}
+
+.cert-field {
+  padding: 10px 16px;
+  border-bottom: 1px solid #2c2c2c;
+}
+
+.cert-field:last-child {
+  border-bottom: none;
+}
+
+.cert-field-label {
+  font-size: 11px;
+  color: #777;
+  font-weight: 600;
+}
+
+.cert-field-value {
+  font-size: 13px;
+  color: #ddd;
+}
+
+
+/* ===== Zoom indicator (floating) ===== */
+.zoom-revealer {
+  background-color: transparent;
+  background: none;
+}
+
+.zoom-indicator {
+  background-color: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 999px;
+  padding: 6px 10px 6px 16px;
+}
+
+.zoom-pct {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8e8e8;
+}
+
+.zoom-reset-btn {
+  background-color: transparent;
+  color: #ccc;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1.5px #4a4a4a;
+}
+
+.zoom-reset-btn:hover {
+  background-color: rgba(74,158,255,0.15);
+  color: #fff;
+  box-shadow: inset 0 0 0 1.5px #4a9eff;
+}
+
+
+/* ===== Extensions store ===== */
+.ext-card {
+  background-color: #242424;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.ext-card:hover {
+  background-color: #282828;
+  border-color: #3d3d3d;
+}
+
+.ext-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e8e8e8;
+}
+
+
+/* Extensions toolbar popover rows */
+.ext-pop-row { padding: 6px 4px; border-radius: 8px; }
+.ext-pop-row:hover { background-color: #303030; }

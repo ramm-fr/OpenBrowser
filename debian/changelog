@@ -1,0 +1,14 @@
+openbrowser (0.1-1) unstable; urgency=medium
+
+  * Initial release.
+  * Multi-tab browsing with pinned, private, and muted tabs
+  * GNOME-style gray UI with libadwaita
+  * Built-in download manager
+  * Bookmark manager with folders and import/export
+  * History manager with search
+  * Privacy features: ad blocker, tracker blocker, HTTPS only
+  * Developer tools integration
+  * Keyboard shortcuts
+  * Settings with JSON persistence
+
+ -- OpenBrowser Team <openbrowser@example.com>  Sun, 14 Jun 2026 12:00:00 +0000

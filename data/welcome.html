@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to OpenBrowser</title>
+<style>
+:root{
+  --bg:#3a3a3a;
+  --bg2:#4a4a4a;
+  --surface:#424242;
+  --border:#555;
+  --text:#f2f2f2;
+  --muted:#b8b8b8;
+  --dark:#1f1f1f;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cantarell','Inter',sans-serif;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:48px;
+}
+.fade{opacity:0;transform:translateY(16px);animation:up .55s cubic-bezier(.2,.9,.25,1.05) forwards;}
+.d1{animation-delay:.05s}.d2{animation-delay:.16s}.d3{animation-delay:.30s}.d4{animation-delay:.46s}
+@keyframes up{to{opacity:1;transform:translateY(0);}}
+
+h1{font-size:clamp(40px,6vw,62px);font-weight:200;letter-spacing:.3px;line-height:1.08;margin-bottom:18px;color:var(--text);}
+h1 b{font-weight:600;}
+.sub{font-size:17px;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:52px;}
+
+.cards{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-bottom:56px;}
+.card{width:200px;background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:26px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;
+  transition:transform .2s,border-color .2s,box-shadow .2s;}
+.card:hover{transform:translateY(-4px);border-color:#d4d4d8;box-shadow:0 12px 30px rgba(0,0,0,.06);}
+.card .ic{width:48px;height:48px;border-radius:12px;background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;}
+.card .ic svg{width:24px;height:24px;color:#e8e8e8;}
+.card .t{font-size:15.5px;font-weight:600;color:var(--text);}
+.card .d{font-size:13px;color:var(--muted);line-height:1.55;}
+
+.actions{display:flex;align-items:center;gap:20px;}
+.btn{background:var(--dark);color:#fff;border:none;border-radius:12px;
+  padding:15px 50px;font-size:16px;font-weight:600;cursor:pointer;
+  transition:background .15s,transform .12s;}
+.btn:hover{background:#000;transform:translateY(-2px);}
+.btn:active{transform:translateY(0);}
+.skip{background:none;border:none;color:var(--muted);font-size:15px;cursor:pointer;}
+.skip:hover{color:var(--text);}
+</style>
+</head>
+<body>
+  <h1 class="fade d1">Welcome to <b>OpenBrowser</b></h1>
+  <p class="sub fade d2">A fast, private and open-source browser built for Linux. Set up in seconds and take back control of your browsing.</p>
+
+  <div class="cards fade d3">
+    <div class="card">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'/></svg></div>
+      <div class="t">Private</div>
+      <div class="d">Tracker and ad blocking on by default. Zero telemetry.</div>
+    </div>
+    <div class="card">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <div class="t">Fast</div>
+      <div class="d">Lightweight native engine that stays out of your way.</div>
+    </div>
+    <div class="card">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z'/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div class="t">Yours</div>
+      <div class="d">Extensions, themes and settings fully in your hands.</div>
+    </div>
+  </div>
+
+  <div class="actions fade d4">
+    <button class="btn" onclick="start()">Get Started</button>
+  </div>
+
+<script>function start(){ location.href = "open://home"; }</script>
+</body></html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/openbrowser">
+    <file>style.css</file>
+    <file>startup.html</file>
+    <file>about.html</file>
+    <file>settings-page.html</file>
+    <file>downloads-page.html</file>
+    <file>bookmarks-page.html</file>
+    <file>passwords-page.html</file>
+    <file>offline.html</file>
+    <file>error.html</file>
+    <file>welcome.html</file>
+    <file>Login.json</file>
+    <file>icons/footer.svg</file>
+    <file alias="icons/scalable/actions/cookie-symbolic.svg">icons/cookie-symbolic.svg</file>
+    <file>flower_icon.png</file>
+  </gresource>
+</gresources>

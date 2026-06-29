@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Tab</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+/* Adwaita (GNOME) dark palette */
+:root{
+  --window-bg:#242424;
+  --card-bg:rgba(255,255,255,.08);
+  --card-bg-hover:rgba(255,255,255,.13);
+  --separator:rgba(255,255,255,.08);
+  --fg:#ffffff;
+  --dim:rgba(255,255,255,.55);
+  --dimmer:rgba(255,255,255,.35);
+  --accent:#3584e4;
+  --accent-text:#81b3ec;
+  --radius:12px;
+}
+html,body{height:100%}
+body{
+  background:var(--window-bg);color:var(--fg);
+  font-family:'Adwaita Sans','Cantarell',-apple-system,system-ui,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+}
+
+/* ===== Section 1: search at top + shortcuts ===== */
+.hero{min-height:62vh;display:flex;flex-direction:column;align-items:center;padding:clamp(60px,12vh,140px) 24px 0}
+.search-wrap{position:relative;width:100%;max-width:460px}
+.s-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--dim);pointer-events:none;transition:color .2s}
+#searchInput{
+  width:100%;height:48px;padding:0 18px 0 46px;border-radius:12px;
+  border:1px solid var(--separator);background:var(--card-bg);color:var(--fg);
+  font-size:15px;outline:none;transition:border-color .2s,background .2s,box-shadow .2s;
+}
+#searchInput::placeholder{color:var(--dimmer)}
+#searchInput:focus{border-color:var(--accent);background:rgba(255,255,255,.1);box-shadow:0 12px 40px rgba(0,0,0,.4),0 0 0 4px rgba(53,132,228,.18)}
+.search-wrap:focus-within .s-icon{color:var(--accent-text)}
+
+/* shortcuts — plain gray icons, no card */
+.shortcuts{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px;max-width:620px}
+.shortcut{display:flex;flex-direction:column;align-items:center;gap:10px;width:88px;cursor:pointer;font-family:inherit;color:var(--dim);font-size:12px;font-weight:500;padding:14px 8px;border-radius:14px;background:none;border:none;transition:color .15s,transform .15s}
+.shortcut .ico{display:flex;align-items:center;justify-content:center}
+.shortcut .ico svg{width:26px;height:26px;color:var(--dim);transition:color .15s}
+.shortcut .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.shortcut:hover{color:var(--fg);transform:translateY(-3px)}
+.shortcut:hover .ico svg{color:var(--fg)}
+
+/* Footer SVG under shortcuts — full bleed (fits both corners) */
+.login-anim{display:block;width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);margin-top:-30px;height:auto;border-bottom-left-radius:clamp(40px,9vw,140px);border-bottom-right-radius:clamp(40px,9vw,140px)}
+
+/* ===== Section 2: news ===== */
+.news{padding:0 clamp(24px,5vw,80px) 56px;max-width:1280px;margin:0 auto}
+.section-title{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin:8px 2px 16px}
+.section-title svg{width:16px;height:16px}
+.section-title .grow{flex:1}
+.icon-btn{background:none;border:none;color:var(--dim);cursor:pointer;border-radius:8px;padding:7px 9px;display:flex;align-items:center;transition:color .15s}
+.icon-btn:hover{color:var(--fg)}
+.icon-btn svg{width:15px;height:15px}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.news-card{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border-radius:var(--radius);background:var(--card-bg);cursor:pointer;transition:background .15s,transform .15s}
+.news-card:hover{background:var(--card-bg-hover);transform:translateY(-2px)}
+.news-card .thumb{width:38px;height:38px;border-radius:9px;flex-shrink:0;background:rgba(255,255,255,.06);object-fit:contain;padding:7px}
+.news-card .body{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
+.news-card .nt{font-size:13.5px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.news-card .meta{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--dim);flex-wrap:wrap}
+.news-card .domain{color:var(--accent-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px}
+.news-card .dot{width:3px;height:3px;border-radius:50%;background:var(--dimmer);flex-shrink:0}
+.news-status{padding:28px;text-align:center;color:var(--dim);font-size:14px;grid-column:1/-1}
+.skeleton{background:var(--card-bg);border-radius:var(--radius);min-height:66px;position:relative;overflow:hidden}
+.skeleton::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);animation:sh 1.2s infinite}
+@keyframes sh{100%{transform:translateX(100%)}}
+/* ===== Background layer ===== */
+.bg-layer{position:fixed;inset:0;z-index:-1;background-size:cover;background-position:center;background-repeat:no-repeat}
+
+/* ===== Settings gear ===== */
+.gear-btn{position:fixed;top:14px;right:16px;z-index:50;width:40px;height:40px;border-radius:999px;border:none;background:none;color:var(--dim);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:color .15s}
+.gear-btn:hover{color:var(--fg)}
+.gear-btn svg{width:20px;height:20px}
+
+/* ===== Customise dialog ===== */
+.cust-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:120}
+.cust-overlay.show{display:flex}
+.cust-dialog{width:min(94vw,640px);max-height:86vh;background:#1f1f1f;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.6)}
+.cust-header{display:flex;align-items:center;padding:18px 22px;border-bottom:1px solid var(--separator)}
+.cust-header h2{font-size:18px;font-weight:700;flex:1}
+.cust-close{width:34px;height:34px;border-radius:999px;border:none;background:transparent;color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s}
+.cust-close:hover{background:var(--card-bg-hover);color:var(--fg)}
+.cust-close svg{width:18px;height:18px}
+.cust-body{padding:22px;overflow-y:auto}
+.cust-label{font-size:12px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
+.bg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px}
+.bg-opt{position:relative;aspect-ratio:16/10;border-radius:12px;cursor:pointer;border:2px solid transparent;overflow:hidden;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:var(--fg);font-size:12px;font-weight:600;transition:border-color .15s}
+.bg-opt.special{background:var(--card-bg);border:2px dashed var(--separator);flex-direction:column;gap:6px;color:var(--dim)}
+.bg-opt.special:hover{border-color:var(--accent);color:var(--fg)}
+.bg-opt.special svg{width:22px;height:22px}
+.bg-opt.selected{border-color:var(--accent)}
+.bg-opt .check{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:999px;background:var(--accent);color:#fff;display:none;align-items:center;justify-content:center}
+.bg-opt.selected .check{display:flex}
+.bg-opt .check svg{width:13px;height:13px}
+
+/* ===== Weather + Markets panels ===== */
+.panel{padding:0 clamp(24px,5vw,80px) 28px;max-width:1280px;margin:0 auto}
+.weather{display:flex;align-items:center;gap:22px;background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;flex-wrap:wrap}
+.weather .wicon svg{width:48px;height:48px;color:var(--fg)}
+.weather .wtemp{font-size:42px;font-weight:300;line-height:1;font-variant-numeric:tabular-nums}
+.weather .wmeta{display:flex;flex-direction:column;gap:3px}
+.weather .wcity{font-size:15px;font-weight:600}
+.weather .wcond{font-size:13px;color:var(--dim)}
+.weather .whl{margin-left:18px;font-size:13.5px;color:var(--dim);text-align:right;line-height:1.6}
+.weather .wgraph{margin-left:auto;width:260px;max-width:42vw}
+.weather .wgraph svg{width:100%;height:76px;display:block;overflow:visible}
+.wgraph .line{fill:none;stroke:var(--accent-text);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wgraph .area{fill:rgba(53,132,228,.16);stroke:none}
+.wgraph .dotnow{fill:var(--accent-text)}
+.wgraph .lbl{fill:var(--dim);font-size:10px;font-weight:600}
+.stocks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.stock{background:var(--card-bg);border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.stock .sname{font-size:13px;color:var(--dim);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:7px}
+.stock .scoin{width:18px;height:18px;border-radius:50%;flex-shrink:0}
+.stock .sprice{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
+.stock .schg{font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.stock .up{color:#57e389}
+.stock .down{color:#ff7b72}
+.stock .spark{width:100%;height:36px;margin-top:6px;display:block;overflow:visible}
+.stock .spark .l{fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.stock .spark .a{opacity:.16}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.skeleton::after{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="bg-layer" id="bgLayer"></div>
+
+<button class="gear-btn" id="gearBtn" title="Customise">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+</button>
+
+<section class="hero">
+  <div class="search-wrap">
+    <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" id="searchInput" placeholder="Search the web or enter a URL" autocomplete="off" spellcheck="false" autofocus>
+  </div>
+  <div class="shortcuts" id="shortcuts"></div>
+  <img class="login-anim" src="icons/footer.svg" alt="">
+</section>
+
+<section class="news">
+  <div class="section-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Z"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6Z"/></svg>
+    <span>Top Stories</span><span class="grow"></span>
+    <button class="icon-btn" id="newsRefresh" title="Refresh">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+    </button>
+  </div>
+  <div class="news-grid" id="newsGrid"></div>
+</section>
+
+<section class="panel">
+  <div class="section-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 1 0 0-9h-1.8A7 7 0 1 0 4 15.3"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/></svg>
+    <span>Weather</span>
+  </div>
+  <div class="weather" id="weather"><div class="news-status">Loading weather…</div></div>
+</section>
+
+<section class="panel">
+  <div class="section-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+    <span>Markets</span>
+    <span class="grow"></span>
+    <button class="icon-btn" id="stockRefresh" title="Refresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></button>
+  </div>
+  <div class="stocks-grid" id="stocks"></div>
+</section>
+
+<!-- Customise dialog -->
+<div class="cust-overlay" id="custOverlay">
+  <div class="cust-dialog">
+    <div class="cust-header">
+      <h2>Customise New Tab Page</h2>
+      <button class="cust-close" id="custClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="cust-body">
+      <div class="cust-label">Background image</div>
+      <div class="bg-grid" id="bgGrid"></div>
+    </div>
+  </div>
+</div>
+<input type="file" id="bgFile" accept="image/*" style="display:none">
+
+<script>
+/* ---- Search ---- */
+var input=document.getElementById('searchInput');
+input.focus();
+function navigate(u){
+  if(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.navigate){window.webkit.messageHandlers.navigate.postMessage(u);}
+  else{location.href=u;}
+}
+input.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){e.preventDefault();var q=this.value.trim();if(q)navigate(q);}
+});
+
+/* ---- New-tab data cache (persisted via native → instant reloads) ----
+ * News/weather/markets data is cached on disk by the app. A fresh tab renders
+ * from cache immediately and only re-fetches in the background when stale. */
+var obCache={news:null,weather:null,stocks:null,t:{}};
+var OB_TTL={news:600000,weather:1800000,stocks:300000}; /* 10m / 30m / 5m */
+var obBooted=false;
+function obSaveCache(){
+  try{
+    if(window.webkit&&webkit.messageHandlers&&webkit.messageHandlers.cacheSave){
+      webkit.messageHandlers.cacheSave.postMessage(JSON.stringify(obCache));
+    }
+  }catch(e){}
+}
+window.__obSetCache=function(c){
+  if(c&&typeof c==='object'){
+    if(Array.isArray(c.news))obCache.news=c.news;
+    if(c.weather&&typeof c.weather==='object')obCache.weather=c.weather;
+    if(Array.isArray(c.stocks))obCache.stocks=c.stocks;
+    if(c.t&&typeof c.t==='object')obCache.t=c.t;
+  }
+  obBoot();
+};
+function obBoot(){
+  if(obBooted)return;obBooted=true;
+  var now=Date.now();
+  if(obCache.news&&obCache.news.length)renderStories(obCache.news);
+  if(!obCache.news||(now-(obCache.t.news||0))>OB_TTL.news)setTimeout(loadNews,0);
+  if(obCache.weather)renderWeather(obCache.weather.city,obCache.weather.w);
+  if(!obCache.weather||(now-(obCache.t.weather||0))>OB_TTL.weather)setTimeout(loadWeather,180);
+  if(obCache.stocks&&obCache.stocks.length)renderStocks(obCache.stocks);
+  if(!obCache.stocks||(now-(obCache.t.stocks||0))>OB_TTL.stocks)setTimeout(loadStocks,360);
+}
+
+/* ---- Shortcuts (Lucide icons) ---- */
+var L={
+  youtube:'<path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/>',
+  github:'<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/>',
+  twitter:'<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>',
+  mail:'<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  map:'<polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/>',
+  drive:'<line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/>',
+  sparkles:'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>',
+  calendar:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>'
+};
+var shortcuts=[
+  {name:'YouTube',url:'https://youtube.com',icon:'youtube',color:'#f30002'},
+  {name:'GitHub',url:'https://github.com',icon:'github',color:'#6e5494'},
+  {name:'Twitter',url:'https://twitter.com',icon:'twitter',color:'#1c99e6'},
+  {name:'Gmail',url:'https://mail.google.com',icon:'mail',color:'#ea4335'},
+  {name:'Maps',url:'https://maps.google.com',icon:'map',color:'#34a853'},
+  {name:'Drive',url:'https://drive.google.com',icon:'drive',color:'#f5b400'},
+  {name:'ChatGPT',url:'https://chat.openai.com',icon:'sparkles',color:'#10a37f'},
+  {name:'Calendar',url:'https://calendar.google.com',icon:'calendar',color:'#4285f4'}
+];
+var scEl=document.getElementById('shortcuts');
+shortcuts.forEach(function(sc){
+  var b=document.createElement('button');b.className='shortcut';b.title=sc.name;
+  b.innerHTML='<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(L[sc.icon]||'')+'</svg></span><span class="name">'+sc.name+'</span>';
+  b.addEventListener('click',function(){navigate(sc.url);});
+  scEl.appendChild(b);
+});
+
+/* ---- News (Hacker News, direct; images via og:image) ---- */
+var grid=document.getElementById('newsGrid');var COUNT=9;
+function escapeHtml(s){return (s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function domainOf(url){try{return new URL(url).hostname.replace(/^www\./,'');}catch(e){return 'news.ycombinator.com';}}
+function showSkeletons(){grid.innerHTML='';for(var i=0;i<COUNT;i++){var s=document.createElement('div');s.className='skeleton';grid.appendChild(s);}}
+function renderStories(stories){
+  grid.innerHTML='';
+  if(!stories.length){grid.innerHTML='<div class="news-status">Couldn\u2019t load news. Check your connection and try refresh.</div>';return;}
+  stories.forEach(function(st){
+    var url=st.url||('https://news.ycombinator.com/item?id='+st.id);
+    var dom=domainOf(url);
+    var card=document.createElement('div');card.className='news-card';
+    card.innerHTML='<img class="thumb" loading="lazy" decoding="async" src="https://www.google.com/s2/favicons?domain='+encodeURIComponent(dom)+'&sz=64" alt="" onerror="this.style.visibility=\'hidden\'">'+
+      '<div class="body"><div class="nt">'+escapeHtml(st.title)+'</div>'+
+      '<div class="meta"><span class="domain">'+escapeHtml(dom)+'</span>'+
+      '<span class="dot"></span><span>\u25B2 '+(st.score||0)+'</span>'+
+      '<span class="dot"></span><span>'+(st.descendants||0)+'</span></div></div>';
+    card.addEventListener('click',function(){navigate(url);});
+    grid.appendChild(card);
+  });
+}
+function loadNews(){
+  if(!(obCache.news&&obCache.news.length))showSkeletons();
+  fetch('https://hacker-news.firebaseio.com/v0/topstories.json').then(function(r){return r.json();})
+    .then(function(ids){return Promise.all(ids.slice(0,COUNT).map(function(id){return fetch('https://hacker-news.firebaseio.com/v0/item/'+id+'.json').then(function(r){return r.json();});}));})
+    .then(function(items){
+      var st=items.filter(function(x){return x&&x.title;});
+      renderStories(st);
+      obCache.news=st;obCache.t.news=Date.now();obSaveCache();
+    })
+    .catch(function(){if(!(obCache.news&&obCache.news.length))grid.innerHTML='<div class="news-status">Couldn\u2019t load news. Check your connection and try refresh.</div>';});
+}
+document.getElementById('newsRefresh').addEventListener('click',loadNews);
+
+/* ---- Weather (Open-Meteo + IP location, no key) ---- */
+var WICON={
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+  cloudsun:'<path d="M12 2v2M5.22 5.22l1.42 1.42M2 12h2M20 12h2M19.78 5.22l-1.42 1.42"/><path d="M15.94 13a4 4 0 0 0-7.45-2"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/>',
+  cloud:'<path d="M17.5 19a4.5 4.5 0 1 0 0-9h-1.8A7 7 0 1 0 4 15.3"/>',
+  rain:'<path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v6M8 14v6M12 16v6"/>',
+  snow:'<path d="M2 12h20M12 2v20M4.93 4.93l14.14 14.14M19.07 4.93 4.93 19.07"/>',
+  storm:'<path d="M17.5 19a4.5 4.5 0 1 0 0-9h-1.8A7 7 0 1 0 4 15.3"/><path d="m13 12-3 5h4l-3 5"/>'
+};
+function weatherInfo(code){
+  if(code===0)return{l:'Clear sky',i:'sun'};
+  if(code<=3)return{l:'Partly cloudy',i:'cloudsun'};
+  if(code<=48)return{l:'Fog',i:'cloud'};
+  if(code<=67)return{l:'Rain',i:'rain'};
+  if(code<=77)return{l:'Snow',i:'snow'};
+  if(code<=82)return{l:'Showers',i:'rain'};
+  if(code<=86)return{l:'Snow showers',i:'snow'};
+  return{l:'Thunderstorm',i:'storm'};
+}
+function renderWeather(city,w){
+  var el=document.getElementById('weather');
+  var cur=w.current||{};var info=weatherInfo(cur.weather_code);
+  var hi=w.daily&&Math.round(w.daily.temperature_2m_max[0]);
+  var lo=w.daily&&Math.round(w.daily.temperature_2m_min[0]);
+  el.innerHTML=
+    '<span class="wicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+WICON[info.i]+'</svg></span>'+
+    '<span class="wtemp">'+Math.round(cur.temperature_2m)+'\u00b0</span>'+
+    '<span class="wmeta"><span class="wcity">'+escapeHtml(city||'Your location')+'</span><span class="wcond">'+info.l+'</span></span>'+
+    buildSparkline(w)+
+    (hi!=null?'<span class="whl">H: '+hi+'\u00b0<br>L: '+lo+'\u00b0</span>':'');
+}
+/* hourly temperature graph (next 12 hours) */
+function buildSparkline(w){
+  if(!w.hourly||!w.hourly.temperature_2m)return '';
+  var times=w.hourly.time,temps=w.hourly.temperature_2m;
+  var nowIso=(w.current&&w.current.time)||'';
+  var start=0;
+  for(var i=0;i<times.length;i++){if(times[i]>=nowIso){start=i;break;}}
+  var N=12;var seg=temps.slice(start,start+N);if(seg.length<2)return '';
+  var min=Math.min.apply(null,seg),max=Math.max.apply(null,seg);
+  var W=260,H=76,padX=8,padT=18,padB=16;
+  var span=(max-min)||1;
+  var pts=seg.map(function(t,i){
+    var x=padX+i*((W-2*padX)/(seg.length-1));
+    var y=padT+(1-(t-min)/span)*(H-padT-padB);
+    return [x,y];
+  });
+  var line=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+  var area=line+' L'+pts[pts.length-1][0].toFixed(1)+' '+(H-padB)+' L'+pts[0][0].toFixed(1)+' '+(H-padB)+' Z';
+  var maxI=seg.indexOf(max),minI=seg.indexOf(min);
+  var lbls=
+    '<text class="lbl" x="'+pts[maxI][0].toFixed(1)+'" y="'+(pts[maxI][1]-5).toFixed(1)+'" text-anchor="middle">'+Math.round(max)+'\u00b0</text>'+
+    '<text class="lbl" x="'+pts[minI][0].toFixed(1)+'" y="'+(pts[minI][1]+12).toFixed(1)+'" text-anchor="middle">'+Math.round(min)+'\u00b0</text>';
+  return '<span class="wgraph"><svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">'+
+    '<path class="area" d="'+area+'"/>'+
+    '<path class="line" d="'+line+'"/>'+
+    '<circle class="dotnow" cx="'+pts[0][0].toFixed(1)+'" cy="'+pts[0][1].toFixed(1)+'" r="3"/>'+
+    lbls+'</svg></span>';
+}
+function loadWeather(){
+  fetch('https://get.geojs.io/v1/ip/geo.json').then(function(r){return r.json();}).then(function(loc){
+    var lat=loc.latitude,lon=loc.longitude,city=loc.city;
+    return fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weather_code&hourly=temperature_2m&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=2')
+      .then(function(r){return r.json();}).then(function(w){
+        renderWeather(city,w);
+        obCache.weather={city:city,w:w};obCache.t.weather=Date.now();obSaveCache();
+      });
+  }).catch(function(){if(!obCache.weather)document.getElementById('weather').innerHTML='<div class="news-status">Couldn\u2019t load weather.</div>';});
+}
+
+/* ---- Markets (CoinGecko crypto — keyless, CORS, with sparklines) ---- */
+var stocksEl=document.getElementById('stocks');
+function fmtNum(n){if(n>=1000)return n.toLocaleString('en-US',{maximumFractionDigits:2});if(n>=1)return n.toFixed(2);return n.toFixed(4);}
+/* small sparkline for a series of values */
+function buildSpark(vals,color){
+  if(!vals||vals.length<2)return '';
+  var W=150,H=36,pad=3;
+  var min=Math.min.apply(null,vals),max=Math.max.apply(null,vals);
+  var span=(max-min)||1;
+  var pts=vals.map(function(v,i){
+    var x=pad+i*((W-2*pad)/(vals.length-1));
+    var y=pad+(1-(v-min)/span)*(H-2*pad);
+    return x.toFixed(1)+' '+y.toFixed(1);
+  });
+  var line='M'+pts.join(' L');
+  var area=line+' L'+(W-pad)+' '+(H-pad)+' L'+pad+' '+(H-pad)+' Z';
+  return '<svg class="spark" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">'+
+    '<path class="a" d="'+area+'" fill="'+color+'"/>'+
+    '<path class="l" d="'+line+'" stroke="'+color+'"/></svg>';
+}
+function renderStocks(coins){
+  stocksEl.innerHTML='';
+  coins.forEach(function(c){
+    var pct=c.price_change_percentage_24h||0;
+    var up=pct>=0;var col=up?'#57e389':'#ff7b72';var sign=up?'+':'';
+    var spark=(c.sparkline_in_7d&&c.sparkline_in_7d.price)||[];
+    var card=document.createElement('div');card.className='stock';
+    card.innerHTML='<span class="sname"><img class="scoin" loading="lazy" decoding="async" src="'+c.image+'" alt="">'+escapeHtml(c.name)+'</span>'+
+      '<span class="sprice">$'+fmtNum(c.current_price)+'</span>'+
+      '<span class="schg '+(up?'up':'down')+'">'+sign+pct.toFixed(2)+'%</span>'+
+      buildSpark(spark,col);
+    card.addEventListener('click',function(){navigate('https://www.coingecko.com/en/coins/'+c.id);});
+    stocksEl.appendChild(card);
+  });
+}
+function loadStocks(){
+  if(!(obCache.stocks&&obCache.stocks.length)){
+    stocksEl.innerHTML='';
+    for(var i=0;i<8;i++){var s=document.createElement('div');s.className='skeleton';s.style.minHeight='110px';stocksEl.appendChild(s);}
+  }
+  var url='https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=8&page=1&sparkline=true&price_change_percentage=24h';
+  fetch(url).then(function(r){return r.json();}).then(function(coins){
+    renderStocks(coins);
+    obCache.stocks=coins;obCache.t.stocks=Date.now();obSaveCache();
+  }).catch(function(){
+    if(!(obCache.stocks&&obCache.stocks.length))stocksEl.innerHTML='<div class="news-status">Couldn\u2019t load market data. Try refresh.</div>';
+  });
+}
+document.getElementById('stockRefresh').addEventListener('click',loadStocks);
+
+/* ---- Background & settings ---- */
+var prefs={bg:''};
+var bgLayer=document.getElementById('bgLayer');
+function applyBg(){
+  if(prefs.bg){
+    bgLayer.style.backgroundImage='linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.6)), '+prefs.bg;
+  }else{
+    bgLayer.style.backgroundImage='';
+  }
+}
+function savePrefs(){
+  if(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.prefsSave){
+    window.webkit.messageHandlers.prefsSave.postMessage(JSON.stringify(prefs));
+  }
+}
+/* native pushes saved prefs on load */
+window.__obSetPrefs=function(p){if(p&&typeof p==='object'&&typeof p.bg==='string')prefs.bg=p.bg;applyBg();renderBgGrid();};
+
+var presets=[
+  'linear-gradient(135deg,#1e3c72,#2a5298)',
+  'linear-gradient(160deg,#0f2027,#203a43,#2c5364)',
+  'linear-gradient(160deg,#42275a,#734b6d)',
+  'linear-gradient(135deg,#16222a,#3a6073)',
+  'linear-gradient(135deg,#232526,#414345)',
+  'url(https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?auto=format&fit=crop&w=1920&q=70)',
+  'url(https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=70)',
+  'url(https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1920&q=70)'
+];
+
+var bgGrid=document.getElementById('bgGrid');
+function setBg(value){prefs.bg=value;applyBg();savePrefs();renderBgGrid();}
+function renderBgGrid(){
+  bgGrid.innerHTML='';
+  /* None */
+  var none=document.createElement('div');
+  none.className='bg-opt special'+(prefs.bg===''?' selected':'');
+  none.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 2 20 20"/><path d="M4 4h16v16"/></svg>None';
+  none.addEventListener('click',function(){setBg('');});
+  bgGrid.appendChild(none);
+  /* Upload */
+  var up=document.createElement('div');
+  up.className='bg-opt special';
+  up.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>Upload';
+  up.addEventListener('click',function(){document.getElementById('bgFile').click();});
+  bgGrid.appendChild(up);
+  /* Presets */
+  presets.forEach(function(val){
+    var o=document.createElement('div');
+    o.className='bg-opt'+(prefs.bg===val?' selected':'');
+    o.style.backgroundImage=val;
+    o.innerHTML='<span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>';
+    o.addEventListener('click',function(){setBg(val);});
+    bgGrid.appendChild(o);
+  });
+}
+document.getElementById('bgFile').addEventListener('change',function(e){
+  var f=e.target.files&&e.target.files[0];
+  if(!f)return;
+  var reader=new FileReader();
+  reader.onload=function(){setBg('url('+reader.result+')');custOverlay.classList.remove('show');};
+  reader.readAsDataURL(f);
+  e.target.value='';
+});
+
+var custOverlay=document.getElementById('custOverlay');
+document.getElementById('gearBtn').addEventListener('click',function(){renderBgGrid();custOverlay.classList.add('show');});
+document.getElementById('custClose').addEventListener('click',function(){custOverlay.classList.remove('show');});
+custOverlay.addEventListener('click',function(e){if(e.target===custOverlay)custOverlay.classList.remove('show');});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')custOverlay.classList.remove('show');});
+
+renderBgGrid();
+applyBg();
+
+/* ---- Boot: render from disk cache instantly, refresh stale data in bg ----
+ * The app pushes the cached data via __obSetCache right after load (which calls
+ * obBoot). If that never arrives (e.g. opened outside the app), fall back so
+ * the widgets still load. */
+function obBootFallback(){requestAnimationFrame(obBoot);}
+if(document.readyState==='complete'){setTimeout(obBootFallback,250);}
+else{window.addEventListener('load',function(){setTimeout(obBootFallback,250);});}
+</script>
+</body></html>

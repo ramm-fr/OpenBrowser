@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenBrowser - Offline</title>
+<style>
+:root{--bg:#1e1e1e;--surface:#262626;--surface-hover:#303030;--text:#ffffff;--muted:#a7a7a7;--accent:#3584e4;--danger:#ff5555;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cantarell','Inter','Segoe UI',sans-serif;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);}
+#offline{width:100vw;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;}
+.hero-svg{width:380px;max-width:80vw;height:auto;margin-bottom:24px;}
+h1{font-size:44px;font-weight:300;margin-bottom:12px;letter-spacing:.3px;}
+p{color:var(--muted);margin-bottom:28px;font-size:15px;line-height:1.5;max-width:440px;}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+button{border:none;border-radius:12px;padding:13px 26px;cursor:pointer;font-size:15px;font-weight:600;transition:background .15s,transform .12s;}
+button:hover{transform:translateY(-2px);}
+.primary{background:var(--accent);color:#fff;}
+.primary:hover{background:#3b8fee;}
+.secondary{background:var(--surface);color:#fff;}
+.secondary:hover{background:var(--surface-hover);}
+#game{display:none;width:100vw;height:100vh;background:#111;position:relative;}
+canvas{width:100%;height:100%;display:block;}
+.exit{position:absolute;top:20px;right:20px;z-index:10;}
+.score{position:absolute;top:24px;left:24px;z-index:10;font-size:20px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;}
+.hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:#888;font-size:13px;z-index:10;}
+</style></head>
+<body>
+<div id="offline">
+  <svg class="hero-svg" viewBox="0 0 800 400">
+    <rect width="800" height="400" fill="#1e1e1e"/>
+    <path d="M0 300 L120 180 L240 300 Z" fill="#303030"/>
+    <path d="M180 300 L360 120 L540 300 Z" fill="#404040"/>
+    <path d="M500 300 L650 170 L800 300 Z" fill="#303030"/>
+    <circle cx="400" cy="140" r="70" fill="#262626"/>
+    <path d="M340 140 A60 60 0 0 1 460 140" stroke="#fff" stroke-width="14" fill="none" stroke-linecap="round"/>
+    <path d="M360 160 A40 40 0 0 1 440 160" stroke="#fff" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <circle cx="400" cy="178" r="8" fill="#fff"/>
+    <line x1="350" y1="85" x2="450" y2="200" stroke="#ff5555" stroke-width="12" stroke-linecap="round"/>
+  </svg>
+  <h1>No Internet Connection</h1>
+  <p>OpenBrowser can't access the network. Check your connection and try again — or play a quick game while you wait.</p>
+  <div class="actions">
+    <button class="primary" onclick="retry()">Retry</button>
+    <button class="secondary" onclick="startGame()">Play Game</button>
+  </div>
+</div>
+<div id="game">
+  <div class="score" id="score">0</div>
+  <button class="secondary exit" onclick="exitGame()">Exit Game</button>
+  <div class="hint">Press Space or click to jump</div>
+  <canvas id="canvas"></canvas>
+</div>
+<script>
+function retry(){if(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.retry){window.webkit.messageHandlers.retry.postMessage("retry");}else{location.reload();}}
+const offline=document.getElementById("offline"),game=document.getElementById("game"),scoreEl=document.getElementById("score");
+let running=false;
+function startGame(){offline.style.display="none";game.style.display="block";running=true;reset();}
+function exitGame(){game.style.display="none";offline.style.display="flex";running=false;}
+const canvas=document.getElementById("canvas"),ctx=canvas.getContext("2d");
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+resize();window.addEventListener("resize",resize);
+let groundH=120,player,obstacle,gravity,score,best=0,speed,over;
+function reset(){groundH=Math.min(140,canvas.height*0.18);player={x:120,w:42,h:42,y:canvas.height-groundH-42,dy:0,jump:false};obstacle={x:canvas.width+200,w:30,h:50};gravity=0.8;score=0;speed=8;over=false;scoreEl.textContent=0;}
+function jump(){if(over){reset();return;}if(!player.jump){player.dy=-16;player.jump=true;}}
+document.addEventListener("keydown",e=>{if(e.code==="Space"){e.preventDefault();jump();}});
+canvas.addEventListener("pointerdown",jump);
+function loop(){
+  if(running){
+    const gy=canvas.height-groundH;
+    ctx.fillStyle="#111";ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="#2a2a2a";ctx.fillRect(0,gy,canvas.width,groundH);
+    ctx.strokeStyle="#3584e4";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(canvas.width,gy);ctx.stroke();
+    if(!over){
+      player.dy+=gravity;player.y+=player.dy;
+      if(player.y>=gy-player.h){player.y=gy-player.h;player.dy=0;player.jump=false;}
+      obstacle.x-=speed;obstacle.y=gy-obstacle.h;
+      if(obstacle.x<-60){obstacle.x=canvas.width+200+Math.random()*300;score++;scoreEl.textContent=score;if(score>best)best=score;if(score%5===0)speed+=0.6;}
+      if(player.x<obstacle.x+obstacle.w&&player.x+player.w>obstacle.x&&player.y+player.h>obstacle.y){over=true;}
+    }
+    ctx.fillStyle="#fff";ctx.beginPath();ctx.roundRect(player.x,player.y,player.w,player.h,8);ctx.fill();
+    ctx.fillStyle="#ff5555";ctx.beginPath();ctx.roundRect(obstacle.x,obstacle.y,obstacle.w,obstacle.h,6);ctx.fill();
+    if(over){
+      ctx.fillStyle="rgba(0,0,0,.55)";ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle="#fff";ctx.textAlign="center";ctx.font="700 36px Cantarell,sans-serif";
+      ctx.fillText("Game Over",canvas.width/2,canvas.height/2-10);
+      ctx.font="18px Cantarell,sans-serif";ctx.fillStyle="#aaa";
+      ctx.fillText("Score "+score+"  ·  Best "+best+"  —  Space/click to restart",canvas.width/2,canvas.height/2+28);
+    }
+  }
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body></html>

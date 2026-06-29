@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=OpenBrowser
+Comment=A GNOME-style Web Browser
+Exec=openbrowser %u
+Icon=com.openbrowser
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+StartupWMClass=com.openbrowser.app
+Keywords=web;browser;internet;

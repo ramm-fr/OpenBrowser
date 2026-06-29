@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OpenBrowser Error</title>
+<style>
+:root{--bg:#1e1e1e;--surface:#262626;--surface-hover:#303030;--text:#fff;--muted:#a7a7a7;--accent:#3584e4;--danger:#ff5555;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cantarell','Inter','Segoe UI',sans-serif;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);}
+main{width:100vw;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;}
+svg{width:440px;max-width:84vw;height:auto;margin-bottom:24px;}
+h1{font-size:42px;font-weight:300;margin-bottom:12px;letter-spacing:.3px;}
+.code{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--danger);margin-bottom:10px;}
+p{color:var(--muted);max-width:560px;line-height:1.6;margin-bottom:26px;font-size:15px;}
+.url{font-size:12px;font-family:monospace;color:#777;background:var(--surface);border:1px solid #333;border-radius:8px;padding:8px 14px;margin-bottom:24px;max-width:90vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+button{border:none;border-radius:12px;padding:13px 26px;cursor:pointer;font-size:15px;font-weight:600;transition:background .15s,transform .12s;}
+button:hover{transform:translateY(-2px);}
+.primary{background:var(--accent);color:#fff;}
+.primary:hover{background:#3b8fee;}
+.secondary{background:var(--surface);color:#fff;}
+.secondary:hover{background:var(--surface-hover);}
+</style></head>
+<body>
+<main>
+  <svg viewBox="0 0 800 400">
+    <path d="M0 300 L150 180 L300 300 Z" fill="#303030"/>
+    <path d="M220 300 L420 110 L620 300 Z" fill="#404040"/>
+    <path d="M500 300 L650 180 L800 300 Z" fill="#303030"/>
+    <rect x="310" y="90" width="180" height="130" rx="18" fill="#262626" stroke="#555" stroke-width="4"/>
+    <line x1="345" y1="125" x2="455" y2="195" stroke="#ff5555" stroke-width="12" stroke-linecap="round"/>
+    <line x1="455" y1="125" x2="345" y2="195" stroke="#ff5555" stroke-width="12" stroke-linecap="round"/>
+  </svg>
+  <div class="code" id="code">Load Error</div>
+  <h1 id="title">This Site Can't Be Reached</h1>
+  <p id="desc">OpenBrowser couldn't load this website. The server may be unavailable or the address may be incorrect.</p>
+  <div class="url" id="url"></div>
+  <div class="actions">
+    <button class="primary" onclick="tryAgain()">Try Again</button>
+    <button class="secondary" onclick="goBack()">Go Back</button>
+  </div>
+</main>
+<script>
+var OB_ERROR="__OB_ERROR__";
+var OB_URL="__OB_URL__";
+function tryAgain(){if(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.retry){window.webkit.messageHandlers.retry.postMessage("retry");}else{location.reload();}}
+function goBack(){if(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.goback){window.webkit.messageHandlers.goback.postMessage("back");}else{history.back();}}
+var code=document.getElementById("code"),title=document.getElementById("title"),desc=document.getElementById("desc"),urlEl=document.getElementById("url");
+if(OB_URL && OB_URL.indexOf("__")!==0){urlEl.textContent=OB_URL;}else{urlEl.style.display="none";}
+switch(OB_ERROR){
+  case "dns":code.textContent="Server Not Found";title.textContent="Server Not Found";desc.textContent="OpenBrowser couldn't find the server for this address. Check the URL for typos and make sure the site exists.";break;
+  case "ssl":code.textContent="Secure Connection Failed";title.textContent="Your Connection Isn't Secure";desc.textContent="A secure (HTTPS) connection to this site could not be established. The certificate may be invalid or expired.";break;
+  case "404":code.textContent="Error 404";title.textContent="Page Not Found";desc.textContent="The page you are looking for could not be found on this server.";break;
+  default:code.textContent="Load Error";title.textContent="This Site Can't Be Reached";desc.textContent="OpenBrowser couldn't load this website. The server may be unavailable or the address may be incorrect.";
+}
+</script>
+</body></html>

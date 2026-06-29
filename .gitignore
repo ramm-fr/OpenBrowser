@@ -1,0 +1,15 @@
+builddir/
+obj-x86_64-linux-gnu/
+AppDir/
+appimagetool
+*.ddeb
+*.buildinfo
+*.changes
+*.deb
+*.AppImage
+debian/.debhelper/
+debian/openbrowser/
+debian/files
+debian/openbrowser.debhelper.log
+debian/openbrowser.substvars
+debian/debhelper-build-stamp

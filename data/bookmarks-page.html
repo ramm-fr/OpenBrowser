@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8"><title>Bookmarks</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow-y:auto;background:#1a1a1a;color:#ccc;font-family:'Cantarell',-apple-system,sans-serif}
+body{padding:32px 48px}
+.header{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.header h1{font-size:24px;font-weight:300;color:#eee;flex:1}
+.header .count{font-size:11px;color:#555;background:#252525;padding:4px 10px;border-radius:12px}
+.empty{text-align:center;padding:80px 0;color:#444}
+.empty svg{width:48px;height:48px;margin-bottom:16px;color:#333}
+.empty p{font-size:14px;margin-bottom:4px}
+.empty small{font-size:11px;color:#333}
+.tip{margin-top:24px;padding:12px 16px;background:#222;border-radius:8px;border:1px solid #2a2a2a;font-size:11px;color:#555;text-align:center}
+kbd{background:#2a2a2a;border:1px solid #333;border-radius:3px;padding:2px 6px;font-size:10px;color:#888;font-family:monospace}
+</style>
+</head><body>
+<div class="header">
+<h1>Bookmarks</h1>
+<span class="count">0 saved</span>
+</div>
+<div class="empty">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+<p>No bookmarks yet</p>
+<small>Your saved pages will appear here</small>
+</div>
+<div class="tip">Press <kbd>Ctrl+D</kbd> to bookmark any page</div>
+</body></html>

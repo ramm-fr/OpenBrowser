@@ -1,0 +1,56 @@
+{
+  "store": "OpenBrowser Extensions",
+  "version": 1,
+  "extensions": [
+    {
+      "id": "dark-mode",
+      "name": "Dark Mode Everywhere",
+      "version": "1.0.0",
+      "author": "OpenBrowser",
+      "description": "Forces a dark color scheme on websites that don't offer one.",
+      "icon": "weather-clear-night-symbolic",
+      "style": "html{filter:invert(0.92) hue-rotate(180deg)!important;background:#fff!important}img,video,picture,canvas,svg,iframe,[style*=\"background-image\"]{filter:invert(1) hue-rotate(180deg)!important}",
+      "script": null
+    },
+    {
+      "id": "ad-hider",
+      "name": "Cosmetic Ad Blocker",
+      "version": "1.0.0",
+      "author": "OpenBrowser",
+      "description": "Hides common ad banners, sponsored blocks and ad iframes.",
+      "icon": "action-unavailable-symbolic",
+      "style": null,
+      "script": "(()=>{const sel=['[id^=\"ad-\"]','[id*=\"-ad-\"]','[class*=\"adsbygoogle\"]','[class*=\"ad-banner\"]','[class*=\"ad-slot\"]','[class*=\"sponsor\"]','ins.adsbygoogle','[aria-label=\"Advertisement\"]','iframe[src*=\"doubleclick\"]','iframe[src*=\"googlesyndication\"]'];function hide(){sel.forEach(s=>{document.querySelectorAll(s).forEach(e=>{e.style.display='none';});});}hide();new MutationObserver(hide).observe(document.documentElement,{childList:true,subtree:true});})();"
+    },
+    {
+      "id": "no-autoplay",
+      "name": "Stop Autoplay",
+      "version": "1.0.0",
+      "author": "OpenBrowser",
+      "description": "Pauses videos and audio that try to play automatically.",
+      "icon": "media-playback-pause-symbolic",
+      "style": null,
+      "script": "(()=>{function stop(){document.querySelectorAll('video,audio').forEach(m=>{if(!m.paused&&!m.dataset._userPlayed){m.pause();}});}document.addEventListener('play',e=>{e.target.dataset._userPlayed='1';},true);stop();new MutationObserver(stop).observe(document.documentElement,{childList:true,subtree:true});})();"
+    },
+    {
+      "id": "readable",
+      "name": "Smooth & Readable",
+      "version": "1.0.0",
+      "author": "OpenBrowser",
+      "description": "Adds smooth scrolling and a nicer text selection highlight.",
+      "icon": "view-paged-symbolic",
+      "style": "*{scroll-behavior:smooth!important}::selection{background:#4a9eff55!important}",
+      "script": null
+    },
+    {
+      "id": "big-cursor",
+      "name": "Reading Ruler",
+      "version": "1.0.0",
+      "author": "OpenBrowser",
+      "description": "Highlights the line under your cursor to help you read.",
+      "icon": "input-mouse-symbolic",
+      "style": null,
+      "script": "(()=>{const bar=document.createElement('div');bar.style.cssText='position:fixed;left:0;right:0;height:28px;background:rgba(74,158,255,.12);pointer-events:none;z-index:2147483647;transition:top .05s';document.documentElement.appendChild(bar);addEventListener('mousemove',e=>{bar.style.top=(e.clientY-14)+'px';});})();"
+    }
+  ]
+}
