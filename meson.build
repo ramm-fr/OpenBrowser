@@ -44,12 +44,21 @@ executable('openbrowser',
   install_dir: get_option('bindir'),
 )
 
-# Install desktop file and icons
-install_data('data/com.openbrowser.desktop',
+# Install desktop file, metainfo, and icons
+install_data('data/io.github.ramm_fr.OpenBrowser.desktop',
   install_dir: join_paths(get_option('datadir'), 'applications'),
+)
+
+install_data('data/io.github.ramm_fr.OpenBrowser.metainfo.xml',
+  install_dir: join_paths(get_option('datadir'), 'metainfo'),
 )
 
 install_data('data/flower_icon.png',
   install_dir: join_paths(get_option('datadir'), 'icons/hicolor/256x256/apps'),
-  rename: 'com.openbrowser.png',
+  rename: 'io.github.ramm_fr.OpenBrowser.png',
+)
+
+install_data('data/flower_icon.png',
+  install_dir: join_paths(get_option('datadir'), 'icons/hicolor/128x128/apps'),
+  rename: 'io.github.ramm_fr.OpenBrowser.png',
 )

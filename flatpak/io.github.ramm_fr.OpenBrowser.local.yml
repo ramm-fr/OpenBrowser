@@ -1,0 +1,23 @@
+app-id: io.github.ramm_fr.OpenBrowser
+runtime: org.gnome.Platform
+runtime-version: '48'
+sdk: org.gnome.Sdk
+command: openbrowser
+
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --filesystem=xdg-download
+  - --talk-name=org.freedesktop.portal.*
+
+modules:
+  - name: openbrowser
+    buildsystem: meson
+    config-opts:
+      - --buildtype=release
+    sources:
+      - type: dir
+        path: ..

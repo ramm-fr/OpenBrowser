@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ramm_fr.OpenBrowser</id>
+  <name>OpenBrowser</name>
+  <summary>A fast, private, open-source web browser for Linux</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <description>
+    <p>OpenBrowser is a native Linux web browser built with GTK4, libadwaita, and WebKitGTK.</p>
+    <p>Features include vertical tabs, a download manager, bookmarks, history, password management, privacy controls, and developer tools.</p>
+  </description>
+  <launchable type="desktop-id">io.github.ramm_fr.OpenBrowser.desktop</launchable>
+  <url type="homepage">https://github.com/ramm-fr/OpenBrowser</url>
+  <url type="bugtracker">https://github.com/ramm-fr/OpenBrowser/issues</url>
+  <url type="vcs-browser">https://github.com/ramm-fr/OpenBrowser</url>
+  <developer id="io.github.ramm_fr">
+    <name>ramm.frr</name>
+  </developer>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+  </categories>
+  <keywords>
+    <keyword>web</keyword>
+    <keyword>browser</keyword>
+    <keyword>internet</keyword>
+    <keyword>privacy</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/ramm-fr/OpenBrowser/main/poster.svg</image>
+      <caption>OpenBrowser main window</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1" date="2026-06-30">
+      <description>
+        <p>Initial release with multi-tab browsing, bookmarks, history, downloads, and privacy features.</p>
+      </description>
+    </release>
+  </releases>
+</component>

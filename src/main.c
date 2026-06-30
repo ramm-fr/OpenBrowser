@@ -37,7 +37,7 @@ on_activate(AdwApplication *app, gpointer user_data)
     BrowserWindow *window = browser_window_new(app);
 
     /* Set window icon */
-    gtk_window_set_icon_name(GTK_WINDOW(window), "com.openbrowser");
+    gtk_window_set_icon_name(GTK_WINDOW(window), "io.github.ramm_fr.OpenBrowser");
 
     gtk_window_present(GTK_WINDOW(window));
 }
@@ -134,7 +134,7 @@ main(int argc, char *argv[])
     g_setenv("WEBKIT_USE_SINGLE_WEB_PROCESS", "1", FALSE);
 
     AdwApplication *app = adw_application_new(
-        "com.openbrowser.app",
+        "io.github.ramm_fr.OpenBrowser",
         G_APPLICATION_HANDLES_OPEN | G_APPLICATION_HANDLES_COMMAND_LINE
     );
 

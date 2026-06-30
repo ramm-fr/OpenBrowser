@@ -13,3 +13,10 @@ debian/files
 debian/openbrowser.debhelper.log
 debian/openbrowser.substvars
 debian/debhelper-build-stamp
+flatpak/build-dir/
+flatpak/.flatpak-builder/
+package-staging/
+OpenBrowser.AppDir/
+AppRun.custom
+linuxdeploy*.AppImage
+linuxdeploy-plugin-gtk.sh

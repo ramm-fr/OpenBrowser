@@ -57,6 +57,15 @@ GPL-3.0-or-later
 
 ## Installation
 
+### Flatpak (Flathub)
+
+Flatpak packaging lives in `flatpak/`. See [flatpak/FLATHUB.md](flatpak/FLATHUB.md) for submission steps.
+
+```bash
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub io.github.ramm_fr.OpenBrowser
+```
+
 ### AppImage (Recommended)
 
 ```bash

@@ -254,7 +254,7 @@ settings_manager_is_default_browser(void)
         return FALSE;
 
     g_strstrip(stdout_str);
-    return g_strcmp0(stdout_str, "com.openbrowser.desktop") == 0;
+    return g_strcmp0(stdout_str, "io.github.ramm_fr.OpenBrowser.desktop") == 0;
 }
 
 void
@@ -263,7 +263,7 @@ settings_manager_set_as_default_browser(void)
     g_autoptr(GError) error = NULL;
 
     gboolean ret = g_spawn_command_line_sync(
-        "xdg-settings set default-web-browser com.openbrowser.desktop",
+        "xdg-settings set default-web-browser io.github.ramm_fr.OpenBrowser.desktop",
         NULL, NULL, NULL, &error);
 
     if (!ret) {
