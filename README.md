@@ -74,27 +74,8 @@ chmod +x OpenBrowser-0.1-x86_64.AppImage
 ./OpenBrowser-0.1-x86_64.AppImage
 ```
 
-### Build from Source (Full Installation with Desktop Application)
 
-```bash
-# 1. Install build dependencies
-sudo apt install -y git meson ninja-build libgtk-4-dev libwebkitgtk-6.0-dev libadwaita-1-dev libjson-glib-dev libsoup-3.0-dev
 
-# 2. Clone the repo (or pull latest if already cloned)
-git clone https://github.com/ramm-fr/OpenBrowser.git
-cd OpenBrowser
-git pull origin main
-
-# 3. Configure and build
-meson setup builddir --prefix=/usr --wipe
-ninja -C builddir
-
-# 4. Install system-wide (binary + desktop file + icon)
-sudo ninja -C builddir install
-
-# 5. Update desktop database so it shows in app launcher
-sudo update-desktop-database /usr/share/applications
-sudo gtk-update-icon-cache /usr/share/icons/hicolor
 ```
 
 ## Uninstallation
